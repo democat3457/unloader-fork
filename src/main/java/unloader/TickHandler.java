@@ -14,9 +14,9 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 public class TickHandler {
-	private final int tickCount = 0;
-
 	private final Logger logger = LogManager.getLogger(UnloaderMod.MODID);
+
+	private int tickCount = 0;
 
 	@SubscribeEvent
 	public void onServerTick(TickEvent.ServerTickEvent event) {
