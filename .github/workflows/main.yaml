@@ -21,3 +21,12 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew build
+
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest code
+        uses: actions/checkout@v2
+
+      - name: Reformat code
+        uses: axel-op/googlejavaformat-action@v2.0.0
