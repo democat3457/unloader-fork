@@ -24,7 +24,7 @@ public class TickHandler {
 			return;
 		}
 		tickCount++;
-		if (tickCount < Config.unloadInterval) {
+		if (tickCount < UnloaderConfig.unloadInterval) {
 			return;
 		}
 		tickCount = 0;
@@ -43,7 +43,7 @@ public class TickHandler {
 		if (dimType != null) {
 			dimName = dimType.getName();
 		}
-		for (String re : Config.blacklistDims) {
+		for (String re : UnloaderConfig.blacklistDims) {
 			if (dimName.matches(re)) {
 				return;
 			}

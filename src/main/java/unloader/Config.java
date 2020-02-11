@@ -6,8 +6,8 @@ import net.minecraftforge.common.config.Config.Comment;
 import net.minecraftforge.common.config.Config.LangKey;
 
 @Config(modid = UnloaderMod.MODID)
-@Config.LangKey(UnloaderMod.MODID+".config.title")
-public class Config {
+@LangKey(UnloaderMod.MODID+".config.title")
+public class UnloaderConfig {
 	@Name("blacklistDims")
 	@Comment({
 		"List of dimensions you don’t want to unload.",

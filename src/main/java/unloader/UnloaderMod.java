@@ -16,7 +16,7 @@ public class UnloaderMod {
 	public static final String MODID = "unloader";
 	public static final String NAME = "Unloader";
 
-	private final TickHandler handler = null;
+	private TickHandler handler = null;
 
 	@Mod.EventHandler
 	public void onServerStarting(FMLServerStartingEvent event) {
