@@ -1,3 +1,5 @@
+![CI](https://github.com/yamporg/unloader/workflows/CI/badge.svg)
+
 # Unloader
 
 Unloader is a small utility mod that unloads dimensions that aren’t in use.
