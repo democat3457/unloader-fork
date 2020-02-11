@@ -14,74 +14,74 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class TickHandler {
-  private final Logger logger = LogManager.getLogger(UnloaderMod.MODID);
+    private final Logger logger = LogManager.getLogger(UnloaderMod.MODID);
 
-  private int tickCount = 0;
+    private int tickCount = 0;
 
-  @SubscribeEvent
-  public void onServerTick(TickEvent.ServerTickEvent event) {
-    if (event.phase != TickEvent.Phase.END) {
-      return;
-    }
-    tickCount++;
-    if (tickCount < UnloaderConfig.unloadInterval) {
-      return;
-    }
-    tickCount = 0;
+    @SubscribeEvent
+    public void onServerTick(TickEvent.ServerTickEvent event) {
+        if (event.phase != TickEvent.Phase.END) {
+            return;
+        }
+        tickCount++;
+        if (tickCount < UnloaderConfig.unloadInterval) {
+            return;
+        }
+        tickCount = 0;
 
-    Integer[] dims = DimensionManager.getIDs();
-    for (Integer id : dims) {
-      handleDim(id);
-    }
-  }
-
-  private void handleDim(Integer id) {
-    WorldServer w = DimensionManager.getWorld(id);
-    DimensionType dimType = DimensionManager.getProviderType(id);
-
-    String dimName = "";
-    if (dimType != null) {
-      dimName = dimType.getName();
-    }
-    for (String re : UnloaderConfig.blacklistDims) {
-      if (dimName.matches(re)) {
-        return;
-      }
-      if (Integer.toString(id).matches(re)) {
-        return;
-      }
+        Integer[] dims = DimensionManager.getIDs();
+        for (Integer id : dims) {
+            handleDim(id);
+        }
     }
 
-    if (dimType.shouldLoadSpawn()) {
-      return;
-    }
+    private void handleDim(Integer id) {
+        WorldServer w = DimensionManager.getWorld(id);
+        DimensionType dimType = DimensionManager.getProviderType(id);
 
-    ChunkProviderServer p = w.getChunkProvider();
-    if (p.getLoadedChunkCount() != 0) {
-      return;
-    }
-    if (ForgeChunkManager.getPersistentChunksFor(w).isEmpty()) {
-      return;
-    }
+        String dimName = "";
+        if (dimType != null) {
+            dimName = dimType.getName();
+        }
+        for (String re : UnloaderConfig.blacklistDims) {
+            if (dimName.matches(re)) {
+                return;
+            }
+            if (Integer.toString(id).matches(re)) {
+                return;
+            }
+        }
 
-    if (w.playerEntities.isEmpty()) {
-      return;
-    }
-    if (w.loadedEntityList.isEmpty()) {
-      return;
-    }
-    if (w.loadedTileEntityList.isEmpty()) {
-      return;
-    }
+        if (dimType.shouldLoadSpawn()) {
+            return;
+        }
 
-    try {
-      w.saveAllChunks(true, null);
-    } catch (MinecraftException e) {
-      logger.error("Caught an exception while saving all chunks:", e);
-    } finally {
-      MinecraftForge.EVENT_BUS.post(new WorldEvent.Unload(w));
-      w.flush();
-      DimensionManager.setWorld(id, null, w.getMinecraftServer());
+        ChunkProviderServer p = w.getChunkProvider();
+        if (p.getLoadedChunkCount() != 0) {
+            return;
+        }
+        if (ForgeChunkManager.getPersistentChunksFor(w).isEmpty()) {
+            return;
+        }
+
+        if (w.playerEntities.isEmpty()) {
+            return;
+        }
+        if (w.loadedEntityList.isEmpty()) {
+            return;
+        }
+        if (w.loadedTileEntityList.isEmpty()) {
+            return;
+        }
+
+        try {
+            w.saveAllChunks(true, null);
+        } catch (MinecraftException e) {
+            logger.error("Caught an exception while saving all chunks:", e);
+        } finally {
+            MinecraftForge.EVENT_BUS.post(new WorldEvent.Unload(w));
+            w.flush();
+            DimensionManager.setWorld(id, null, w.getMinecraftServer());
+        }
     }
-  }
 }
