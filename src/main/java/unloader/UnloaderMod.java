@@ -7,25 +7,25 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 
 @Mod(
-	modid = Mod.MODID,
-	name = Mod.NAME,
+	modid = UnloaderMod.MODID,
+	name = UnloaderMod.NAME,
 	version = "@VERSION@",
 	acceptableRemoteVersions = "*"
 )
-public class Unloader {
+public class UnloaderMod {
 	public static final String MODID = "unloader";
 	public static final String NAME = "Unloader";
 
 	private final TickHandler handler = null;
 
 	@Mod.EventHandler
-	public static void onServerStarting(FMLServerStartingEvent event) {
+	public void onServerStarting(FMLServerStartingEvent event) {
 		handler = new TickHandler();
 		MinecraftForge.EVENT_BUS.register(handler);
 	}
 
 	@Mod.EventHandler
-	public static void onServerStopped(FMLServerStoppedEvent event) {
+	public void onServerStopped(FMLServerStoppedEvent event) {
 		MinecraftForge.EVENT_BUS.unregister(handler);
 		handler = null;
 	}

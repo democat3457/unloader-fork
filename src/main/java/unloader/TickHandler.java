@@ -16,7 +16,7 @@ import org.apache.logging.log4j.LogManager;
 public class TickHandler {
 	private final int tickCount = 0;
 
-	private final Logger logger = LogManager.getLogger(Unloader.MODID);
+	private final Logger logger = LogManager.getLogger(UnloaderMod.MODID);
 
 	@SubscribeEvent
 	public void onServerTick(TickEvent.ServerTickEvent event) {
@@ -31,7 +31,7 @@ public class TickHandler {
 
 		Integer[] dims = DimensionManager.getIDs();
 		for (Integer id : dims) {
-			handleDim(id)
+			handleDim(id);
 		}
 	}
 
